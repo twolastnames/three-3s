@@ -14,7 +14,8 @@ class SuitesController < ApplicationController
   end
 
   def create
-    Suite.create(name: params[:name])
+    suite = Suite.create(name: params[:name])
+    render json: { id: suite.id }
   end
 
   def destroy

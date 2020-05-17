@@ -116,6 +116,11 @@ RSpec.describe 'Suites', type: :request do
       expect(Suite.find_by(name: 'created suite')).to be
     end
 
+     it 'returns the created ID' do
+      post '/threAS3/suites', params: { name: 'created suite' }
+      expect(JSON.parse(response.body).keys).to eq ['id']
+    end
+
     it '400s when creating a nameless suite' do
       post '/threAS3/suites', params: { name: 'created suite' }
       expect(Suite.find_by(name: 'created suite')).to be
