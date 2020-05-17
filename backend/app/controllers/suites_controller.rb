@@ -2,6 +2,7 @@
 
 class SuitesController < ApplicationController
   def index
+    count = Suite.count
     suites = Suite.limit(
       limit
     ).offset(
@@ -9,7 +10,7 @@ class SuitesController < ApplicationController
     ).pluck(:id, :name).map do |id, name|
       { id: id, name: name }
     end
-    render json: { offset: offset, suites: suites }
+    render json: { offset: offset, count: count, suites: suites }
   end
 
   def create
