@@ -16,7 +16,7 @@ RSpec.describe 'Suites', type: :request do
 
   it 'can retreive an empty index' do
     get '/threAS3/suites'
-    expect_body(offset: 0, count: 0, suites: [])
+    expect_body(offset: 0, count: 0, records: [])
   end
 
   it 'can retreive an index with a value' do
@@ -25,7 +25,7 @@ RSpec.describe 'Suites', type: :request do
     expect_body(
       offset: 0,
       count: 1,
-      suites: [{ name: 'my suite' }]
+      records: [{ name: 'my suite' }]
     )
   end
 
@@ -62,7 +62,7 @@ RSpec.describe 'Suites', type: :request do
       expect_body(
         offset: 0,
         count: 3,
-        suites: [
+        records: [
           { name: 'my suite1' },
           { name: 'my suite2' },
           { name: 'my suite3' }
@@ -75,7 +75,7 @@ RSpec.describe 'Suites', type: :request do
       expect_body(
         offset: 1,
         count: 3,
-        suites: [
+        records: [
           { name: 'my suite2' },
           { name: 'my suite3' }
         ]
@@ -87,7 +87,7 @@ RSpec.describe 'Suites', type: :request do
       expect_body(
         offset: 0,
         count: 3,
-        suites: [
+        records: [
           { name: 'my suite1' },
           { name: 'my suite2' }
         ]
@@ -99,7 +99,7 @@ RSpec.describe 'Suites', type: :request do
       expect_body(
         offset: 1,
         count: 3,
-        suites: [
+        records: [
           { name: 'my suite2' }
         ]
       )

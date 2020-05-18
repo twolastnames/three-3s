@@ -10,7 +10,7 @@ class SuitesController < ApplicationController
     ).pluck(:id, :name).map do |id, name|
       { id: id, name: name }
     end
-    render json: { offset: offset, count: count, suites: suites }
+    render json: { offset: offset, count: count, records: suites }
   end
 
   def create
