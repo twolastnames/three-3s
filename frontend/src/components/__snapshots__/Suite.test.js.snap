@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Suite its rendering renders with an extra 1`] = `ShallowWrapper {}`;
+
+exports[`Suite its rendering renders with extras 1`] = `ShallowWrapper {}`;
+
+exports[`Suite its rendering renders without extras 1`] = `ShallowWrapper {}`;
