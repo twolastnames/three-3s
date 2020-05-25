@@ -1,16 +1,20 @@
 # frozen_string_literal: true
 
+require 'concurrent'
+
 class SuitesController < ApplicationController
   def index
-    count = Suite.count
-    suites = Suite.limit(
-      limit
-    ).offset(
-      offset
-    ).pluck(:id, :name).map do |id, name|
-      { id: id, name: name }
+    suites = Concurrent::Future.execute do
+      Suite.limit(
+        limit
+      ).offset(
+        offset
+      ).pluck(:id, :name).map do |id, name|
+        { id: id, name: name }
+      end
     end
-    render json: { offset: offset, count: count, records: suites }
+    count = Concurrent::Future.execute { Suite.count }
+    render json: { offset: offset, count: count.value, records: suites.values }
   end
 
   def create
