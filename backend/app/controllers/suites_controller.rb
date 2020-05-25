@@ -2,6 +2,10 @@
 
 require 'concurrent'
 
+# TODO: utilize this query
+# Audited.audit_class.where("created_at >= ?", Date.today)
+#   where("action = ?", 'destroy')
+
 class SuitesController < ApplicationController
   def index
     suites = Concurrent::Future.execute do
@@ -14,7 +18,7 @@ class SuitesController < ApplicationController
       end
     end
     count = Concurrent::Future.execute { Suite.count }
-    render json: { offset: offset, count: count.value, records: suites.values }
+    render json: { offset: offset, count: count.value, records: suites.value }
   end
 
   def create
