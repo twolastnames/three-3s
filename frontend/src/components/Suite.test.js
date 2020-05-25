@@ -8,12 +8,14 @@ describe('Suite', () => {
       const wrapper = shallow(<Suite key="1" name="my suite" />);
       expect(wrapper).toMatchSnapshot();
     });
+
     it('renders with an extra', () => {
       const wrapper = shallow(
         <Suite key="1" name="my suite" extra={[<p key="2">An extra</p>]} />
       );
       expect(wrapper).toMatchSnapshot();
     });
+
     it('renders with extras', () => {
       const wrapper = shallow(
         <Suite
