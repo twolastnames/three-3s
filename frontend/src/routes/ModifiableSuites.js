@@ -51,7 +51,7 @@ const getComponent = (displayMessage, setNeedUpdate, suites) => (
     <h2>Modifiable Suites</h2>
     {(suites || []).map(getSuiteComponent(displayMessage, setNeedUpdate))}
     {suites == null ? 'Loading...' : ''}
-    {(suites || []).length ? '' : (suites && 'No Created Suites')}
+    {(suites || []).length ? '' : suites && 'No Created Suites'}
   </div>
 );
 

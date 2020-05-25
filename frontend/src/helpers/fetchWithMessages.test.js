@@ -9,17 +9,11 @@ describe('fetchWithMessages', () => {
     beforeEach(async () => {
       displayFailureMessage = jest.fn();
       displaySuccessMessage = jest.fn();
-      jest.spyOn(global, 'fetch').mockImplementation(() => {
-        return { ok: true, json: async () => ({ a: 'result' }) };
-      });
+      withFetch().mockOk({ a: 'result' });
       returned = await fetchWithMessages({ method: 'GET' })(
         displayFailureMessage,
         displaySuccessMessage
       )('my description', '/my/url');
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('gives an info message', () => {
@@ -52,17 +46,11 @@ describe('fetchWithMessages', () => {
     beforeEach(async () => {
       displayFailureMessage = jest.fn();
       displaySuccessMessage = jest.fn();
-      jest.spyOn(global, 'fetch').mockImplementation(() => {
-        return { status: 400 };
-      });
+      withFetch().mockNotOk(400);
       returned = await fetchWithMessages({ method: 'GET' })(
         displayFailureMessage,
         displaySuccessMessage
       )('my description', '/my/url');
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('does not give an info message', () => {
@@ -95,17 +83,11 @@ describe('fetchWithMessages', () => {
     beforeEach(async () => {
       displayFailureMessage = jest.fn();
       displaySuccessMessage = jest.fn();
-      jest.spyOn(global, 'fetch').mockImplementation(() => {
-        throw new Error('my error');
-      });
+      withFetch().mockException('my error');
       returned = await fetchWithMessages({ method: 'GET' })(
         displayFailureMessage,
         displaySuccessMessage
       )('my description', '/my/url');
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('does not give an info message', () => {
@@ -138,17 +120,11 @@ describe('fetchWithMessages', () => {
     beforeEach(async () => {
       displayFailureMessage = jest.fn();
       displaySuccessMessage = jest.fn();
-      jest.spyOn(global, 'fetch').mockImplementation(() => {
-        throw new Error();
-      });
+      withFetch().mockException();
       returned = await fetchWithMessages({ method: 'GET' })(
         displayFailureMessage,
         displaySuccessMessage
       )('my description', '/my/url');
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('does not give an info message', () => {

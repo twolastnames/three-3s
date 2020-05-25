@@ -14,14 +14,7 @@ describe('CreateSuite', () => {
     let displayMessage = jest.fn();
 
     beforeEach(async () => {
-      jest.spyOn(global, 'fetch').mockImplementation(() =>
-        Promise.resolve({
-          ok: true,
-          json: async () => {
-            'data';
-          },
-        })
-      );
+      withFetch().mockOk('data');
       const wrapper = mount(<CreateSuite displayMessage={displayMessage} />);
       act(() =>
         wrapper.find('input').prop('onChange')({ target: { value: 'hello' } })
@@ -29,10 +22,6 @@ describe('CreateSuite', () => {
       await nextTick();
       wrapper.find('button').simulate('click', { preventDefault: () => {} });
       await nextTick();
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('gives an info acknowledgement', () => {
@@ -55,9 +44,7 @@ describe('CreateSuite', () => {
     let displayMessage = jest.fn();
 
     beforeEach(async () => {
-      jest
-        .spyOn(global, 'fetch')
-        .mockImplementation(() => Promise.resolve({ status: 666 }));
+      withFetch().mockNotOk(666);
       const wrapper = mount(<CreateSuite displayMessage={displayMessage} />);
       act(() =>
         wrapper.find('input').prop('onChange')({ target: { value: 'hello' } })
@@ -65,10 +52,6 @@ describe('CreateSuite', () => {
       await nextTick();
       wrapper.find('button').simulate('click', { preventDefault: () => {} });
       await nextTick();
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('gives an error acknowledgement', () => {
@@ -91,9 +74,7 @@ describe('CreateSuite', () => {
     let displayMessage = jest.fn();
 
     beforeEach(async () => {
-      jest.spyOn(global, 'fetch').mockImplementation(() => {
-        throw new Error('a message');
-      });
+      withFetch().mockException('a message');
       const wrapper = mount(<CreateSuite displayMessage={displayMessage} />);
       act(() =>
         wrapper.find('input').prop('onChange')({ target: { value: 'hello' } })
@@ -101,10 +82,6 @@ describe('CreateSuite', () => {
       await nextTick();
       wrapper.find('button').simulate('click', { preventDefault: () => {} });
       await nextTick();
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('gives an error acknowledgement', () => {

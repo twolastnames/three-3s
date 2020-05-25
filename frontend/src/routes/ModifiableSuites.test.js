@@ -10,15 +10,9 @@ describe('ModifiableSuites', () => {
 
     beforeAll(async () => {
       displayMessage = jest.fn();
-      jest.spyOn(global, 'fetch').mockImplementation(() => {
-        throw new Error('error message');
-      });
+      withFetch().mockException('error message');
       wrapper = mount(<ModifiableSuites displayMessage={displayMessage} />);
       await act(() => nextTick());
-    });
-
-    afterAll(() => {
-      global.fetch.mockReset();
     });
 
     it('has text for no suites', async () => {
@@ -46,19 +40,11 @@ describe('ModifiableSuites', () => {
 
     beforeAll(async () => {
       displayMessage = jest.fn();
-      jest.spyOn(global, 'fetch').mockImplementation(() =>
-        Promise.resolve({
-          status: 400,
-        })
-      );
+      withFetch().mockNotOk(400);
       wrapper = mount(
         <ModifiableSuites key="1" displayMessage={displayMessage} />
       );
       await act(() => nextTick());
-    });
-
-    afterAll(() => {
-      global.fetch.mockReset();
     });
 
     it('has text for no suites', async () => {
@@ -86,23 +72,13 @@ describe('ModifiableSuites', () => {
 
     beforeAll(async () => {
       displayMessage = jest.fn();
-      jest.spyOn(global, 'fetch').mockImplementation(() =>
-        Promise.resolve({
-          ok: true,
-          json: () =>
-            Promise.resolve({
-              records: [{ id: 5, name: 'my data' }],
-            }),
-        })
-      );
+      withFetch().mockOk({
+        records: [{ id: 5, name: 'my data' }],
+      });
       wrapper = mount(
         <ModifiableSuites key="1" displayMessage={displayMessage} />
       );
       await act(() => nextTick());
-    });
-
-    afterAll(() => {
-      global.fetch.mockReset();
     });
 
     it('has record', async () => {
@@ -110,7 +86,7 @@ describe('ModifiableSuites', () => {
       expect(wrapper.text()).toMatch(/my data/);
     });
 
-     it('has record', async () => {
+    it('has record', async () => {
       await act(async () => await nextTick());
       expect(wrapper.text()).toMatch(/Modifiable Suites/);
     });

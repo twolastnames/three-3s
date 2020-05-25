@@ -18,9 +18,7 @@ describe('TrashCan', () => {
     let acknowledgeDelete = jest.fn();
 
     beforeEach(() => {
-      jest
-        .spyOn(global, 'fetch')
-        .mockImplementation(() => Promise.resolve({ ok: true }));
+      withFetch().mockOk({});
       const wrapper = shallow(
         <TrashCan
           uri="/my/uri"
@@ -29,10 +27,6 @@ describe('TrashCan', () => {
         />
       );
       wrapper.find('svg').simulate('click');
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('gives an info acknowledgement', () => {
@@ -53,9 +47,7 @@ describe('TrashCan', () => {
     let acknowledgeDelete = jest.fn();
 
     beforeEach(() => {
-      jest
-        .spyOn(global, 'fetch')
-        .mockImplementation(() => Promise.resolve({ status: '666' }));
+      withFetch().mockNotOk(666);
       const wrapper = shallow(
         <TrashCan
           uri="/my/uri"
@@ -64,10 +56,6 @@ describe('TrashCan', () => {
         />
       );
       wrapper.find('svg').simulate('click');
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('gives an error acknowledgement', () => {
@@ -88,9 +76,7 @@ describe('TrashCan', () => {
     let acknowledgeDelete = jest.fn();
 
     beforeEach(() => {
-      jest.spyOn(global, 'fetch').mockImplementation(() => {
-        throw new Error('a message');
-      });
+      withFetch().mockException('a message');
       const wrapper = shallow(
         <TrashCan
           uri="/my/uri"
@@ -99,10 +85,6 @@ describe('TrashCan', () => {
         />
       );
       wrapper.find('svg').simulate('click');
-    });
-
-    afterEach(() => {
-      global.fetch.mockReset();
     });
 
     it('gives an error acknowledgement', () => {

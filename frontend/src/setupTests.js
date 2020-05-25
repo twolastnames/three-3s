@@ -10,3 +10,26 @@ import Enzyme from 'enzyme';
 Enzyme.configure({ adapter: new Adapter() });
 
 global.nextTick = promisify(process.nextTick);
+
+global.fetch = jest.fn();
+
+const fetchMocks = {
+  mockException: (message) =>
+    global.fetch.mockImplementationOnce(() => {
+      throw new Error(message);
+    }),
+  mockNotOk: (status) =>
+    global.fetch.mockImplementationOnce(() => Promise.resolve({ status })),
+  mockOk: (payload) =>
+    global.fetch.mockImplementationOnce(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(payload),
+      })
+    ),
+};
+
+global.withFetch = () => {
+  global.fetch.mockReset();
+  return fetchMocks;
+};

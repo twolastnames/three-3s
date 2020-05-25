@@ -24,7 +24,8 @@
       "plugin:prettier/recommended"
     ],
     "globals" : {
-      "nextTick": false
+      "nextTick": false,
+      "withFetch": false
     },
     "rules": {
       "indent": [
