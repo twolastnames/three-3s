@@ -14,7 +14,7 @@ module SuitesHelper
   def expect_body(expected = {})
     body = JSON.parse(response.body, symbolize_names: true)
     nilify_ids(body[:records])
-    expect(response.content_type).to eq('application/json')
+    expect(response.content_type).to eq('application/json; charset=utf-8')
     expect(body).to eq(expected)
   end
 end

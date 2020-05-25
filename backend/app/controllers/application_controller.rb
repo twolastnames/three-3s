@@ -6,9 +6,10 @@ class ApplicationController < ActionController::Base
 
   attr_reader :offset, :limit, :id
 
-  before_filter :validate_offset, only: [:index]
-  before_filter :validate_limit, only: [:index]
-  before_filter :validate_id, only: [:destroy]
+  before_action :validate_offset, only: [:index]
+  before_action :validate_limit, only: [:index]
+  before_action :validate_id, only: [:destroy]
+  protect_from_forgery with: :null_session
 
   private
 

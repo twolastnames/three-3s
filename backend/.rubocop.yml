@@ -1,7 +1,0 @@
-Documentation:
-  Enabled: false
-Metrics/BlockLength:
-  Exclude:
-      - 'spec/helpers/*_spec.rb'
-      - 'spec/requests/*_spec.rb'
-      - 'spec/models/*_spec.rb'
