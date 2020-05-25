@@ -8,7 +8,7 @@ describe('ModifiableSuites', () => {
     let displayMessage;
     let wrapper;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
       displayMessage = jest.fn();
       jest.spyOn(global, 'fetch').mockImplementation(() => {
         throw new Error('error message');
@@ -17,13 +17,13 @@ describe('ModifiableSuites', () => {
       await act(() => nextTick());
     });
 
-    afterEach(() => {
+    afterAll(() => {
       global.fetch.mockReset();
     });
 
     it('has text for no suites', async () => {
       await nextTick();
-      expect(wrapper.text()).toEqual('Modifiable SuitesNo Created Suites');
+      expect(wrapper.text()).toEqual('Modifiable SuitesLoading...');
     });
 
     it('gives a message', () => {
@@ -44,7 +44,7 @@ describe('ModifiableSuites', () => {
     let displayMessage;
     let wrapper;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
       displayMessage = jest.fn();
       jest.spyOn(global, 'fetch').mockImplementation(() =>
         Promise.resolve({
@@ -57,13 +57,13 @@ describe('ModifiableSuites', () => {
       await act(() => nextTick());
     });
 
-    afterEach(() => {
+    afterAll(() => {
       global.fetch.mockReset();
     });
 
-    it('has only the title', async () => {
+    it('has text for no suites', async () => {
       await act(async () => await nextTick());
-      expect(wrapper.text()).toEqual('Modifiable SuitesNo Created Suites');
+      expect(wrapper.text()).toEqual('Modifiable SuitesLoading...');
     });
 
     it('gives a message', () => {
@@ -84,7 +84,7 @@ describe('ModifiableSuites', () => {
     let displayMessage;
     let wrapper;
 
-    beforeEach(async () => {
+    beforeAll(async () => {
       displayMessage = jest.fn();
       jest.spyOn(global, 'fetch').mockImplementation(() =>
         Promise.resolve({
@@ -101,8 +101,18 @@ describe('ModifiableSuites', () => {
       await act(() => nextTick());
     });
 
-    afterEach(() => {
+    afterAll(() => {
       global.fetch.mockReset();
+    });
+
+    it('has record', async () => {
+      await act(async () => await nextTick());
+      expect(wrapper.text()).toMatch(/my data/);
+    });
+
+     it('has record', async () => {
+      await act(async () => await nextTick());
+      expect(wrapper.text()).toMatch(/Modifiable Suites/);
     });
 
     it('has the suite name given', async () => {

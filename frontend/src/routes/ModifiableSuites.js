@@ -50,7 +50,8 @@ const getComponent = (displayMessage, setNeedUpdate, suites) => (
   <div>
     <h2>Modifiable Suites</h2>
     {(suites || []).map(getSuiteComponent(displayMessage, setNeedUpdate))}
-    {suites ? '' : 'No Created Suites'}
+    {suites == null ? 'Loading...' : ''}
+    {(suites || []).length ? '' : (suites && 'No Created Suites')}
   </div>
 );
 
@@ -59,7 +60,7 @@ ModifiableSuites.propTypes = {
 };
 
 export function ModifiableSuites({ displayMessage }) {
-  const [suites, setSuites] = useState([]);
+  const [suites, setSuites] = useState(null);
   const [needUpdate, setNeedUpdate] = useState(true);
   const getNeedUpdate = () => needUpdate;
   const getPayload = getWithMessages(displayMessage);
