@@ -6,16 +6,15 @@ import { CreateSuite } from './CreateSuite';
 describe('CreateSuite', () => {
   it('renders visually', () => {
     expect(
-      shallow(<CreateSuite displayMessage={() => {}} />)
+      shallow(<CreateSuite />)
     ).toMatchSnapshot();
   });
 
   describe('a successful response', () => {
-    let displayMessage = jest.fn();
-
     beforeEach(async () => {
+      window.displayMessage.mockReset()
       withFetch().mockOk('data');
-      const wrapper = mount(<CreateSuite displayMessage={displayMessage} />);
+      const wrapper = mount(<CreateSuite />);
       act(() =>
         wrapper.find('input').prop('onChange')({ target: { value: 'hello' } })
       );
@@ -25,8 +24,8 @@ describe('CreateSuite', () => {
     });
 
     it('gives an info acknowledgement', () => {
-      expect(displayMessage).toBeCalledTimes(1);
-      expect(displayMessage).toBeCalledWith(
+      expect(window.displayMessage).toBeCalledTimes(1);
+      expect(window.displayMessage).toBeCalledWith(
         'info',
         "success with suite named 'undefined'"
       );
@@ -44,8 +43,9 @@ describe('CreateSuite', () => {
     let displayMessage = jest.fn();
 
     beforeEach(async () => {
+      window.displayMessage.mockReset()
       withFetch().mockNotOk(666);
-      const wrapper = mount(<CreateSuite displayMessage={displayMessage} />);
+      const wrapper = mount(<CreateSuite />);
       act(() =>
         wrapper.find('input').prop('onChange')({ target: { value: 'hello' } })
       );
@@ -55,8 +55,8 @@ describe('CreateSuite', () => {
     });
 
     it('gives an error acknowledgement', () => {
-      expect(displayMessage).toBeCalledTimes(1);
-      expect(displayMessage).toBeCalledWith(
+      expect(window.displayMessage).toBeCalledTimes(1);
+      expect(window.displayMessage).toBeCalledWith(
         'error',
         "suite named 'undefined' with HTTP code 666"
       );
@@ -71,11 +71,10 @@ describe('CreateSuite', () => {
   });
 
   describe('an exception', () => {
-    let displayMessage = jest.fn();
-
     beforeEach(async () => {
+      window.displayMessage.mockReset()
       withFetch().mockException('a message');
-      const wrapper = mount(<CreateSuite displayMessage={displayMessage} />);
+      const wrapper = mount(<CreateSuite />);
       act(() =>
         wrapper.find('input').prop('onChange')({ target: { value: 'hello' } })
       );
@@ -85,8 +84,8 @@ describe('CreateSuite', () => {
     });
 
     it('gives an error acknowledgement', () => {
-      expect(displayMessage).toBeCalledTimes(1);
-      expect(displayMessage).toBeCalledWith(
+      expect(window.displayMessage).toBeCalledTimes(1);
+      expect(window.displayMessage).toBeCalledWith(
         'error',
         "suite named 'undefined' a message"
       );

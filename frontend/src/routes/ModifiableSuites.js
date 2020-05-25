@@ -3,33 +3,32 @@ import { useEffect, useState } from 'react';
 import { fetchWithMessages } from '../helpers/fetchWithMessages';
 import { Suite } from '../components/Suite';
 import { TrashCan } from '../components/TrashCan';
-import PropTypes from 'prop-types';
 
 const getWithMessages = fetchWithMessages();
 
-const acknowledgeDelete = (displayMessage, setNeedUpdate) => (
+const acknowledgeDelete = (setNeedUpdate) => (
   level,
   message
 ) => {
-  displayMessage(level, message);
+  window.displayMessage(level, message);
   setNeedUpdate(true);
 };
 
-const getTrashCan = (displayMessage, setNeedUpdate, { id, name }) => {
+const getTrashCan = (setNeedUpdate, { id, name }) => {
   const uri = `/threAS3/suites/${id}`;
   return (
     <TrashCan
       key={id}
       uri={uri}
-      acknowledgeDelete={acknowledgeDelete(displayMessage, setNeedUpdate)}
+      acknowledgeDelete={acknowledgeDelete(setNeedUpdate)}
       description={`a suite named '${name}'`}
     />
   );
 };
 
-const getSuiteComponent = (displayMessage, setNeedUpdate) => ({ id, name }) => {
-  const trashCan = getTrashCan(displayMessage, setNeedUpdate, { id, name });
-  return <Suite key={id} name={name} extras={[trashCan]} />;
+const getSuiteComponent = (setNeedUpdate) => ({ id, name }) => {
+  const trashCan = getTrashCan(setNeedUpdate, { id, name });
+  return <Suite key={id} id={id} name={name} extras={[trashCan]} />;
 };
 
 const setPayload = async (
@@ -46,29 +45,24 @@ const setPayload = async (
   setSuites(records);
 };
 
-const getComponent = (displayMessage, setNeedUpdate, suites) => (
+const getComponent = (setNeedUpdate, suites) => (
   <div>
     <h2>Modifiable Suites</h2>
-    {(suites || []).map(getSuiteComponent(displayMessage, setNeedUpdate))}
+    {(suites || []).map(getSuiteComponent(setNeedUpdate))}
     {suites == null ? 'Loading...' : ''}
     {(suites || []).length ? '' : suites && 'No Created Suites'}
   </div>
 );
 
-ModifiableSuites.propTypes = {
-  displayMessage: PropTypes.func.isRequired,
-};
-
-export function ModifiableSuites({ displayMessage }) {
+export function ModifiableSuites() {
   const [suites, setSuites] = useState(null);
   const [needUpdate, setNeedUpdate] = useState(true);
   const getNeedUpdate = () => needUpdate;
-  const getPayload = getWithMessages(displayMessage);
+  const getPayload = getWithMessages('error');
 
   useEffect(() => {
     setPayload(getPayload, getNeedUpdate, setNeedUpdate, setSuites);
     // eslint-disable-next-line
   }, [needUpdate])
-
-  return getComponent(displayMessage, setNeedUpdate, suites);
+  return getComponent(setNeedUpdate, suites);
 }

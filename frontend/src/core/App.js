@@ -23,7 +23,7 @@ const appendMessage = (messages, setMessages) => (level, message) => {
 function App() {
   const [messages, setMessages] = useState([]);
 
-  const displayMessage = useCallback(appendMessage(messages, setMessages), [
+  window.displayMessage = useCallback(appendMessage(messages, setMessages), [
     messages,
   ]);
 
@@ -34,12 +34,18 @@ function App() {
       </div>
       <ul className="messages">{messages}</ul>
       <Switch>
-        <Route path="/architect/create_suite">
-          <CreateSuite displayMessage={displayMessage} />
-        </Route>
-        <Route path="/architect/suites">
-          <ModifiableSuites displayMessage={displayMessage} />
-        </Route>
+        <Route path="/architect/create_suite"
+          component={CreateSuite}
+        />
+        <Route path="/architect/suites/:id"
+          component={ModifiableSuite}
+        />
+        <Route path="/architect/suites"
+          component={ModifiableSuites}
+        />
+        <Route path="/architect/scenarios/:id"
+          compontent={ModifiableScenario}
+        />
         <Route path="/architect">
           <Architect />
         </Route>

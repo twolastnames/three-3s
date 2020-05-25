@@ -5,13 +5,12 @@ import { ModifiableSuites } from './ModifiableSuites';
 
 describe('ModifiableSuites', () => {
   describe('an exception', () => {
-    let displayMessage;
     let wrapper;
 
     beforeAll(async () => {
-      displayMessage = jest.fn();
+      window.displayMessage.mockReset()
       withFetch().mockException('error message');
-      wrapper = mount(<ModifiableSuites displayMessage={displayMessage} />);
+      wrapper = mount(<ModifiableSuites />);
       await act(() => nextTick());
     });
 
@@ -21,8 +20,8 @@ describe('ModifiableSuites', () => {
     });
 
     it('gives a message', () => {
-      expect(displayMessage).toBeCalledTimes(1);
-      expect(displayMessage).toBeCalledWith(
+      expect(window.displayMessage).toBeCalledTimes(1);
+      expect(window.displayMessage).toBeCalledWith(
         'error',
         'fetching suites error message'
       );
@@ -35,14 +34,13 @@ describe('ModifiableSuites', () => {
   });
 
   describe('an unsuccessful response', () => {
-    let displayMessage;
     let wrapper;
 
     beforeAll(async () => {
-      displayMessage = jest.fn();
+      window.displayMessage.mockReset()
       withFetch().mockNotOk(400);
       wrapper = mount(
-        <ModifiableSuites key="1" displayMessage={displayMessage} />
+        <ModifiableSuites key="1" />
       );
       await act(() => nextTick());
     });
@@ -53,8 +51,8 @@ describe('ModifiableSuites', () => {
     });
 
     it('gives a message', () => {
-      expect(displayMessage).toBeCalledTimes(1);
-      expect(displayMessage).toBeCalledWith(
+      expect(window.displayMessage).toBeCalledTimes(1);
+      expect(window.displayMessage).toBeCalledWith(
         'error',
         'fetching suites with HTTP code 400'
       );
@@ -67,16 +65,15 @@ describe('ModifiableSuites', () => {
   });
 
   describe('a successful response', () => {
-    let displayMessage;
     let wrapper;
 
     beforeAll(async () => {
-      displayMessage = jest.fn();
+      window.displayMessage.mockReset()
       withFetch().mockOk({
         records: [{ id: 5, name: 'my data' }],
       });
       wrapper = mount(
-        <ModifiableSuites key="1" displayMessage={displayMessage} />
+        <ModifiableSuites key="1" />
       );
       await act(() => nextTick());
     });
@@ -97,7 +94,7 @@ describe('ModifiableSuites', () => {
     });
 
     it('does not give a message', () => {
-      expect(displayMessage).toBeCalledTimes(0);
+      expect(window.displayMessage).toBeCalledTimes(0);
     });
 
     it('is called with requested uri', () => {

@@ -81,13 +81,9 @@ function Form({ buttonDisabled, post, setButtonDisabled }) {
   );
 }
 
-CreateSuite.propTypes = {
-  displayMessage: PropTypes.func.isRequired,
-};
-
-export function CreateSuite({ displayMessage }) {
+export function CreateSuite() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  const post = postWithMessages(displayMessage, displayMessage);
+  const post = postWithMessages('info');
 
   return (
     <div>

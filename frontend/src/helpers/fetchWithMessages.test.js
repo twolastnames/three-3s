@@ -2,23 +2,19 @@ import { fetchWithMessages } from './fetchWithMessages';
 
 describe('fetchWithMessages', () => {
   describe('a 200 status', () => {
-    let displayFailureMessage;
-    let displaySuccessMessage;
     let returned;
 
     beforeEach(async () => {
-      displayFailureMessage = jest.fn();
-      displaySuccessMessage = jest.fn();
+      window.displayMessage.mockReset()
       withFetch().mockOk({ a: 'result' });
       returned = await fetchWithMessages({ method: 'GET' })(
-        displayFailureMessage,
-        displaySuccessMessage
+        'info'
       )('my description', '/my/url');
     });
 
     it('gives an info message', () => {
-      expect(displaySuccessMessage).toBeCalledTimes(1);
-      expect(displaySuccessMessage).toBeCalledWith(
+      expect(window.displayMessage).toBeCalledTimes(1);
+      expect(window.displayMessage).toBeCalledWith(
         'info',
         'success with my description'
       );
@@ -28,10 +24,6 @@ describe('fetchWithMessages', () => {
       expect(returned).toEqual({ a: 'result' });
     });
 
-    it('does not give an error message', () => {
-      expect(displayFailureMessage).toBeCalledTimes(0);
-    });
-
     it('is called with requested uri', () => {
       expect(global.fetch).toBeCalledTimes(1);
       expect(global.fetch).toBeCalledWith('/my/url', { method: 'GET' });
@@ -39,22 +31,14 @@ describe('fetchWithMessages', () => {
   });
 
   describe('a non 200 status', () => {
-    let displayFailureMessage;
-    let displaySuccessMessage;
     let returned;
 
     beforeEach(async () => {
-      displayFailureMessage = jest.fn();
-      displaySuccessMessage = jest.fn();
+      window.displayMessage.mockReset()
       withFetch().mockNotOk(400);
       returned = await fetchWithMessages({ method: 'GET' })(
-        displayFailureMessage,
-        displaySuccessMessage
+        'error'
       )('my description', '/my/url');
-    });
-
-    it('does not give an info message', () => {
-      expect(displaySuccessMessage).toBeCalledTimes(0);
     });
 
     it('returns an empty dataset', () => {
@@ -62,8 +46,8 @@ describe('fetchWithMessages', () => {
     });
 
     it('gives an error message', () => {
-      expect(displayFailureMessage).toBeCalledTimes(1);
-      expect(displayFailureMessage).toBeCalledWith(
+      expect(window.displayMessage).toBeCalledTimes(1);
+      expect(window.displayMessage).toBeCalledWith(
         'error',
         'my description with HTTP code 400'
       );
@@ -76,22 +60,13 @@ describe('fetchWithMessages', () => {
   });
 
   describe('an exception with a message', () => {
-    let displayFailureMessage;
-    let displaySuccessMessage;
     let returned;
 
     beforeEach(async () => {
-      displayFailureMessage = jest.fn();
-      displaySuccessMessage = jest.fn();
+      window.displayMessage.mockReset()
       withFetch().mockException('my error');
       returned = await fetchWithMessages({ method: 'GET' })(
-        displayFailureMessage,
-        displaySuccessMessage
       )('my description', '/my/url');
-    });
-
-    it('does not give an info message', () => {
-      expect(displaySuccessMessage).toBeCalledTimes(0);
     });
 
     it('returns an empty dataset', () => {
@@ -99,8 +74,8 @@ describe('fetchWithMessages', () => {
     });
 
     it('gives an error message', () => {
-      expect(displayFailureMessage).toBeCalledTimes(1);
-      expect(displayFailureMessage).toBeCalledWith(
+      expect(window.displayMessage).toBeCalledTimes(1);
+      expect(window.displayMessage).toBeCalledWith(
         'error',
         'my description my error'
       );
@@ -113,22 +88,14 @@ describe('fetchWithMessages', () => {
   });
 
   describe('an exception without a message', () => {
-    let displayFailureMessage;
-    let displaySuccessMessage;
     let returned;
 
     beforeEach(async () => {
-      displayFailureMessage = jest.fn();
-      displaySuccessMessage = jest.fn();
+      window.displayMessage = jest.fn()
       withFetch().mockException();
       returned = await fetchWithMessages({ method: 'GET' })(
-        displayFailureMessage,
-        displaySuccessMessage
+        'error'
       )('my description', '/my/url');
-    });
-
-    it('does not give an info message', () => {
-      expect(displaySuccessMessage).toBeCalledTimes(0);
     });
 
     it('returns an empty dataset', () => {
@@ -136,8 +103,8 @@ describe('fetchWithMessages', () => {
     });
 
     it('gives an error message', () => {
-      expect(displayFailureMessage).toBeCalledTimes(1);
-      expect(displayFailureMessage).toBeCalledWith(
+      expect(window.displayMessage).toBeCalledTimes(1);
+      expect(window.displayMessage).toBeCalledWith(
         'error',
         'my description no error message given'
       );

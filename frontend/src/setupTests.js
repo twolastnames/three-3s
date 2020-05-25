@@ -33,3 +33,5 @@ global.withFetch = () => {
   global.fetch.mockReset();
   return fetchMocks;
 };
+
+global.window.displayMessage = jest.fn()
