@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
 
   before_action :validate_offset, only: [:index]
   before_action :validate_limit, only: [:index]
-  before_action :validate_id, only: [:destroy]
+  before_action :validate_id, only: [:destroy, :show]
   protect_from_forgery with: :null_session
 
   private

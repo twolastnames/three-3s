@@ -70,6 +70,15 @@ RSpec.describe 'Suites', type: :request do
       )
     end
 
+    it 'can retrieve a single record' do
+      get "/threAS3/suites/#{Suite.second.id}"
+      expect_body(
+        record: {
+          name: 'my suite2'
+        }
+      )
+    end
+
     it 'will obey an offset' do
       get '/threAS3/suites', params: { offset: 1 }
       expect_body(

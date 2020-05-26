@@ -21,6 +21,15 @@ class SuitesController < ApplicationController
     render json: { offset: offset, count: count.value, records: suites.value }
   end
 
+  def show
+    suite = Suite.find(params[:id])
+    render json: { record: {
+        id: params[:id],
+        name: suite.name,
+      }
+    }
+  end
+
   def create
     suite = Suite.create(name: params[:name])
     render json: { id: suite.id }
