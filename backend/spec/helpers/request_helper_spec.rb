@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-module SuitesHelper
+module RequestHelper
   def nilify_ids(array)
     seen = Set.new
     array.map do |element|

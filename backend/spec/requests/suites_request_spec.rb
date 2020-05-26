@@ -8,7 +8,7 @@ module SuitesHelper
 end
 
 RSpec.describe 'Suites', type: :request do
-  include SuitesHelper
+  include RequestHelper
 
   before :all do
     Suite.delete_all
