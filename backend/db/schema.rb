@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_25_024928) do
+ActiveRecord::Schema.define(version: 2020_05_26_224418) do
 
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
@@ -32,6 +32,36 @@ ActiveRecord::Schema.define(version: 2020_05_25_024928) do
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
+  end
+
+  create_table "scenarios", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "deleted_at"
+    t.index ["deleted_at"], name: "index_scenarios_on_deleted_at"
+  end
+
+  create_table "scenarios_steps", id: false, force: :cascade do |t|
+    t.integer "scenario_id", null: false
+    t.integer "step_id", null: false
+    t.index ["scenario_id", "step_id"], name: "index_scenarios_steps_on_scenario_id_and_step_id"
+    t.index ["step_id", "scenario_id"], name: "index_scenarios_steps_on_step_id_and_scenario_id"
+  end
+
+  create_table "scenarios_suites", id: false, force: :cascade do |t|
+    t.integer "scenario_id", null: false
+    t.integer "suite_id", null: false
+    t.index ["scenario_id", "suite_id"], name: "index_scenarios_suites_on_scenario_id_and_suite_id"
+    t.index ["suite_id", "scenario_id"], name: "index_scenarios_suites_on_suite_id_and_scenario_id"
+  end
+
+  create_table "steps", force: :cascade do |t|
+    t.string "keyword"
+    t.string "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["text", "keyword"], name: "index_steps_on_text_and_keyword", unique: true
   end
 
   create_table "suites", force: :cascade do |t|
