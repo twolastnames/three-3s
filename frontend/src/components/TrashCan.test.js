@@ -17,7 +17,7 @@ describe('TrashCan', () => {
   describe('a successful response', () => {
     let acknowledgeDelete = jest.fn();
 
-    beforeEach(() => {
+    beforeAll(() => {
       withFetch().mockOk({});
       const wrapper = shallow(
         <TrashCan
@@ -46,7 +46,7 @@ describe('TrashCan', () => {
   describe('an unsuccessful response', () => {
     let acknowledgeDelete = jest.fn();
 
-    beforeEach(() => {
+    beforeAll(() => {
       withFetch().mockNotOk(666);
       const wrapper = shallow(
         <TrashCan
@@ -75,7 +75,7 @@ describe('TrashCan', () => {
   describe('an exception', () => {
     let acknowledgeDelete = jest.fn();
 
-    beforeEach(() => {
+    beforeAll(() => {
       withFetch().mockException('a message');
       const wrapper = shallow(
         <TrashCan
