@@ -1,15 +1,10 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
-import { fetchWithMessages } from '../helpers/fetchWithMessages';
+import PropTypes from 'prop-types';
 import { Suite } from '../components/Suite';
 import { TrashCan } from '../components/TrashCan';
+import { PaginatedPane } from '../components/PaginatedPane';
 
-const getWithMessages = fetchWithMessages();
-
-const acknowledgeDelete = (setNeedUpdate) => (
-  level,
-  message
-) => {
+const acknowledgeDelete = (setNeedUpdate) => (level, message) => {
   window.displayMessage(level, message);
   setNeedUpdate(true);
 };
@@ -26,43 +21,25 @@ const getTrashCan = (setNeedUpdate, { id, name }) => {
   );
 };
 
-const getSuiteComponent = (setNeedUpdate) => ({ id, name }) => {
+const getSuiteComponent = ({ id, name }, setNeedUpdate) => {
   const trashCan = getTrashCan(setNeedUpdate, { id, name });
   return <Suite key={id} id={id} name={name} extras={[trashCan]} />;
 };
 
-const setPayload = async (
-  getPayload,
-  getNeedUpdate,
-  setNeedUpdate,
-  setSuites
-) => {
-  if (!getNeedUpdate()) {
-    return;
-  }
-  setNeedUpdate(false);
-  const { records } = await getPayload('fetching suites', '/threAS3/suites');
-  setSuites(records);
+getSuiteComponent.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
-const getComponent = (setNeedUpdate, suites) => (
-  <div>
-    <h2>Modifiable Suites</h2>
-    {(suites || []).map(getSuiteComponent(setNeedUpdate))}
-    {suites == null ? 'Loading...' : ''}
-    {(suites || []).length ? '' : suites && 'No Created Suites'}
-  </div>
-);
-
 export function ModifiableSuites() {
-  const [suites, setSuites] = useState(null);
-  const [needUpdate, setNeedUpdate] = useState(true);
-  const getNeedUpdate = () => needUpdate;
-  const getPayload = getWithMessages('error');
-
-  useEffect(() => {
-    setPayload(getPayload, getNeedUpdate, setNeedUpdate, setSuites);
-    // eslint-disable-next-line
-  }, [needUpdate])
-  return getComponent(setNeedUpdate, suites);
+  return (
+    <div>
+      <h2>Suites</h2>
+      <PaginatedPane
+        getComponent={getSuiteComponent}
+        description="Suites"
+        url="/threAS3/suites"
+      />
+    </div>
+  );
 }
