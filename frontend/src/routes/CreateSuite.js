@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { fetchWithMessages } from '../helpers/fetchWithMessages';
 import PropTypes from 'prop-types';
 
-const postWithMessages = fetchWithMessages({ method: 'POST' });
+const postWithMessages = fetchWithMessages({ method: 'POST' }, 'info');
 
 const getInput = () => document.getElementById('create_suite_name');
 
@@ -83,14 +83,13 @@ function Form({ buttonDisabled, post, setButtonDisabled }) {
 
 export function CreateSuite() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
-  const post = postWithMessages('info');
 
   return (
     <div>
       <h2>Create Suite</h2>
       <Form
         buttonDisabled={buttonDisabled}
-        post={post}
+        post={postWithMessages}
         setButtonDisabled={setButtonDisabled}
       />
     </div>

@@ -5,14 +5,12 @@ import { CreateSuite } from './CreateSuite';
 
 describe('CreateSuite', () => {
   it('renders visually', () => {
-    expect(
-      shallow(<CreateSuite />)
-    ).toMatchSnapshot();
+    expect(shallow(<CreateSuite />)).toMatchSnapshot();
   });
 
   describe('a successful response', () => {
     beforeEach(async () => {
-      window.displayMessage.mockReset()
+      window.displayMessage.mockReset();
       withFetch().mockOk('data');
       const wrapper = mount(<CreateSuite />);
       act(() =>
@@ -40,10 +38,8 @@ describe('CreateSuite', () => {
   });
 
   describe('an unsuccessful response', () => {
-    let displayMessage = jest.fn();
-
     beforeEach(async () => {
-      window.displayMessage.mockReset()
+      window.displayMessage.mockReset();
       withFetch().mockNotOk(666);
       const wrapper = mount(<CreateSuite />);
       act(() =>
@@ -72,7 +68,7 @@ describe('CreateSuite', () => {
 
   describe('an exception', () => {
     beforeEach(async () => {
-      window.displayMessage.mockReset()
+      window.displayMessage.mockReset();
       withFetch().mockException('a message');
       const wrapper = mount(<CreateSuite />);
       act(() =>
