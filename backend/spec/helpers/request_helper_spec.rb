@@ -19,4 +19,10 @@ module RequestHelper
     expect(response.content_type).to eq('application/json; charset=utf-8')
     expect(body).to eq(expected)
   end
+
+  def clear_database
+    Suite.delete_all
+    Scenario.delete_all
+    Step.delete_all
+  end
 end

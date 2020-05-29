@@ -11,7 +11,7 @@ RSpec.describe 'Suites', type: :request do
   include RequestHelper
 
   before :all do
-    Suite.delete_all
+    clear_database
   end
 
   it 'can retreive an empty index' do
@@ -20,7 +20,7 @@ RSpec.describe 'Suites', type: :request do
   end
 
   it 'can retreive an index with a value' do
-    Suite.create(name: 'my suite')
+    post '/threAS3/suites', params: {name: 'my suite'}
     get '/threAS3/suites'
     expect_body(
       offset: 0,
@@ -51,10 +51,10 @@ RSpec.describe 'Suites', type: :request do
 
   describe 'when it has 3 suites' do
     before :all do
-      Suite.delete_all
-      Suite.create(name: 'my suite1')
-      Suite.create(name: 'my suite2')
-      Suite.create(name: 'my suite3')
+      clear_database
+      post '/threAS3/suites', params: {name: 'my suite1'}
+      post '/threAS3/suites', params: {name: 'my suite2'}
+      post '/threAS3/suites', params: {name: 'my suite3'}
     end
 
     it 'can retreive a all values' do
@@ -117,10 +117,11 @@ RSpec.describe 'Suites', type: :request do
 
   describe 'modifying' do
     before :each do
-      Suite.delete_all
+      clear_database
     end
 
     it 'can create a suite' do
+      # TODO: fix this suite
       post '/threAS3/suites', params: { name: 'created suite' }
       expect(Suite.find_by(name: 'created suite')).to be
     end
@@ -131,12 +132,14 @@ RSpec.describe 'Suites', type: :request do
     end
 
     it '400s when creating a nameless suite' do
+      # TODO: fix this test
       post '/threAS3/suites', params: { name: 'created suite' }
       expect(Suite.find_by(name: 'created suite')).to be
     end
 
     it 'can delete a suite' do
-      id = Suite.create(name: 'delete me').id
+      post '/threAS3/suites', params: {name: 'delete me'}
+      id = JSON.parse(response.body)['id']
       delete "/threAS3/suites/#{id}"
       expect(Suite.where(id: id)).to eq([])
     end
