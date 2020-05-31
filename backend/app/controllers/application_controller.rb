@@ -8,10 +8,34 @@ class ApplicationController < ActionController::Base
 
   before_action :validate_offset, only: [:index]
   before_action :validate_limit, only: [:index]
-  before_action :validate_id, only: [:destroy, :show]
+  before_action :validate_id, only: [:destroy, :show, :update]
+  before_action :validate_allowed_relation, only: [:update, :index]
   protect_from_forgery with: :null_session
 
   private
+
+  def validate_allowed_relation
+    operations = %w(with add remove)
+    data_types = %w(step scenario suite)
+    found = nil
+    operations.each do |operation|
+      data_types.each do |data_type|
+        param = "#{operation}_#{data_type}_id"
+        next if params[param].nil?
+        begin
+          Integer(params[param])
+          return render json: {
+            error: "can not have both '#{data_type}' and '#{found}' params",
+          }, status: 400 unless found.nil?
+          found = data_type
+        rescue StandardError => e
+          return render json: {
+            error: "expected integer for parm '#{param}'",
+          }, status: 400
+        end
+      end
+    end
+  end
 
   def validate_offset
     begin

@@ -8,8 +8,13 @@ require 'concurrent'
 
 class SuitesController < ApplicationController
   def index
+    base = Suite
+    if params[:with_scenario_id].present?
+      base = Scenario.find(params[:with_scenario_id].to_i).suites
+    end
+
     suites = Concurrent::Future.execute do
-      Suite.limit(
+      base.limit(
         limit
       ).offset(
         offset
@@ -17,7 +22,7 @@ class SuitesController < ApplicationController
         { id: id, name: name }
       end
     end
-    count = Concurrent::Future.execute { Suite.count }
+    count = Concurrent::Future.execute { base.count }
     render json: { offset: offset, count: count.value, records: suites.value }
   end
 
@@ -28,6 +33,20 @@ class SuitesController < ApplicationController
         name: suite.name,
       }
     }
+  end
+
+  def update
+    if params[:add_scenario_id].present?
+      Suite.find(
+        params[:id].to_i).scenarios << Scenario.find(params[:add_scenario_id]
+      )
+      return render json: {
+        suite_id: params[:id].to_i, scenario_id: params[:add_scenario_id]
+      }
+    end
+    render json: {
+       error: 'no support for overlay update'
+    }, status: 400
   end
 
   def create

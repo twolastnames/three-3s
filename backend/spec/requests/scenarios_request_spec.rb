@@ -46,10 +46,10 @@ RSpec.describe "Scenarios", type: :request do
 
   describe 'when it has 3 suites' do
     before :all do
-      Scenario.delete_all
-      Scenario.create(name: 'my Scenario1')
-      Scenario.create(name: 'my Scenario2')
-      Scenario.create(name: 'my Scenario3')
+      clear_database
+      post '/threAS3/scenarios', params: {name: 'my Scenario1'}
+      post '/threAS3/scenarios', params: {name: 'my Scenario2'}
+      post '/threAS3/scenarios', params: {name: 'my Scenario3'}
     end
 
     it 'can retreive a all values' do
@@ -151,4 +151,22 @@ RSpec.describe "Scenarios", type: :request do
       expect(response).to have_http_status(404)
     end
   end
+
+  it 'can filter by suite' do
+    clear_database
+    post '/threAS3/scenarios', params: {name: 'my scenario1'}
+    post '/threAS3/scenarios', params: {name: 'my scenario2'}
+    scenario_id = JSON.parse(response.body)["id"]
+    post '/threAS3/suites', params: {name: 'my suites1'}
+    suite_id = JSON.parse(response.body)["id"]
+    put "/threAS3/suites/#{suite_id}", params: {
+      add_scenario_id: scenario_id
+    }
+    get "/threAS3/scenarios", params: { with_suite_id: suite_id }
+    expect_body(
+      offset: 0,
+      count: 1,
+      records: [{ name: 'my scenario2' }],
+    )
+  end  
 end
