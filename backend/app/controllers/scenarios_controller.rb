@@ -1,7 +1,12 @@
 class ScenariosController < ApplicationController
   def index
     base = Scenario
-    if params[:with_suite_id].present?
+    if params[:without_suite_id].present?
+      select = 'select scenario_id from scenarios_suites where suite_id = ?'
+      base = Scenario.where(
+        "id not in (#{select})", params[:without_suite_id]
+        )
+    elsif params[:with_suite_id].present?
       base = Suite.find(params[:with_suite_id].to_i).scenarios
     end
     

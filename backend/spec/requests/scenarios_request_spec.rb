@@ -152,6 +152,24 @@ RSpec.describe "Scenarios", type: :request do
     end
   end
 
+  it 'can filter by not suite' do
+    clear_database
+    post '/threAS3/scenarios', params: {name: 'my scenario1'}
+    post '/threAS3/scenarios', params: {name: 'my scenario2'}
+    scenario_id = JSON.parse(response.body)["id"]
+    post '/threAS3/suites', params: {name: 'my suites1'}
+    suite_id = JSON.parse(response.body)["id"]
+    put "/threAS3/suites/#{suite_id}", params: {
+      add_scenario_id: scenario_id
+    }
+    get "/threAS3/scenarios", params: { without_suite_id: suite_id }
+    expect_body(
+      offset: 0,
+      count: 1,
+      records: [{ name: 'my scenario1' }],
+    )
+  end
+
   it 'can filter by suite' do
     clear_database
     post '/threAS3/scenarios', params: {name: 'my scenario1'}

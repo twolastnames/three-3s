@@ -9,7 +9,12 @@ require 'concurrent'
 class SuitesController < ApplicationController
   def index
     base = Suite
-    if params[:with_scenario_id].present?
+    if params[:without_scenario_id].present?
+      select = 'select suite_id from scenarios_suites where scenario_id = ?'
+      base = Suite.where(
+        "id not in (#{select})", params[:without_scenario_id]
+        )
+    elsif params[:with_scenario_id].present?
       base = Scenario.find(params[:with_scenario_id].to_i).suites
     end
 

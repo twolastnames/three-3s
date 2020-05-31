@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   private
 
   def validate_allowed_relation
-    operations = %w(with add remove)
+    operations = %w(with without add remove)
     data_types = %w(step scenario suite)
     found = nil
     operations.each do |operation|
