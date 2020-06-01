@@ -152,6 +152,32 @@ RSpec.describe "Scenarios", type: :request do
     end
   end
 
+  it 'can remove a suite' do
+    clear_database
+    post '/threAS3/scenarios', params: {name: 'my scenario1'}
+    post '/threAS3/scenarios', params: {name: 'my scenario2'}
+    scenario_id = JSON.parse(response.body)["id"]
+    post '/threAS3/suites', params: {name: 'my suites1'}
+    suite_id = JSON.parse(response.body)["id"]
+    patch "/threAS3/suites/#{suite_id}", params: {
+      add_scenario_id: scenario_id
+    }
+    get "/threAS3/scenarios", params: { without_suite_id: suite_id }
+    expect_body(
+      offset: 0,
+      count: 1,
+      records: [{ name: 'my scenario1' }],
+    )
+    patch "/threAS3/scenarios/#{scenario_id}", params: {
+      remove_suite_id: suite_id
+    }
+    get "/threAS3/scenarios", params: { without_suite_id: suite_id }
+    expect_body(
+      offset: 0,
+      count: 2,
+      records: [{ name: 'my scenario1' }, { name: 'my scenario2'}],
+    )  end
+
   it 'can filter by not suite' do
     clear_database
     post '/threAS3/scenarios', params: {name: 'my scenario1'}
@@ -159,7 +185,7 @@ RSpec.describe "Scenarios", type: :request do
     scenario_id = JSON.parse(response.body)["id"]
     post '/threAS3/suites', params: {name: 'my suites1'}
     suite_id = JSON.parse(response.body)["id"]
-    put "/threAS3/suites/#{suite_id}", params: {
+    patch "/threAS3/suites/#{suite_id}", params: {
       add_scenario_id: scenario_id
     }
     get "/threAS3/scenarios", params: { without_suite_id: suite_id }
@@ -177,7 +203,7 @@ RSpec.describe "Scenarios", type: :request do
     scenario_id = JSON.parse(response.body)["id"]
     post '/threAS3/suites', params: {name: 'my suites1'}
     suite_id = JSON.parse(response.body)["id"]
-    put "/threAS3/suites/#{suite_id}", params: {
+    patch "/threAS3/suites/#{suite_id}", params: {
       add_scenario_id: scenario_id
     }
     get "/threAS3/scenarios", params: { with_suite_id: suite_id }

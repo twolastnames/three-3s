@@ -53,6 +53,13 @@ class ScenariosController < ApplicationController
       return render json: {
         suite_id: params[:id].to_i, scenario_id: params[:add_suite_id]
       }
+    elsif params[:remove_suite_id].present?
+      Scenario.find(params[:id].to_i).suites.delete(Suite.find(
+        params[:remove_suite_id]
+      ))
+      return render json: {
+        suite_id: params[:id].to_i, scenario_id: params[:remove_suite_id]
+      }
     end
     render json: {
        error: 'no support for overlay update'

@@ -42,9 +42,16 @@ class SuitesController < ApplicationController
 
   def update
     if params[:add_scenario_id].present?
-      Suite.find(
-        params[:id].to_i).scenarios << Scenario.find(params[:add_scenario_id]
+      Suite.find(params[:id].to_i).scenarios << Scenario.find(
+        params[:add_scenario_id]
       )
+      return render json: {
+        suite_id: params[:id].to_i, scenario_id: params[:add_scenario_id]
+      }
+    elsif params[:remove_scenario_id].present?
+      Suite.find(params[:id].to_i).scenarios.delete(Scenario.find(
+        params[:remove_scenario_id]
+      ))
       return render json: {
         suite_id: params[:id].to_i, scenario_id: params[:add_scenario_id]
       }
