@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
   before_action :validate_limit, only: [:index]
   before_action :validate_id, only: [:destroy, :show, :update]
   before_action :validate_allowed_relation, only: [:update, :index]
-  protect_from_forgery with: :null_session
+  skip_before_action :verify_authenticity_token
 
   private
 
