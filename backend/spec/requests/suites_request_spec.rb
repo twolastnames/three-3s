@@ -183,7 +183,7 @@ RSpec.describe 'Suites', type: :request do
     post '/threAS3/suites', params: {name: 'my suites1'}
     post '/threAS3/suites', params: {name: 'my suites2'}
     suite_id = JSON.parse(response.body)["id"]
-    put "/threAS3/suites/#{suite_id}", params: { add_scenario_id: scenario_id }
+    patch "/threAS3/suites/#{suite_id}", params: { add_scenario_id: scenario_id }
     get "/threAS3/suites", params: { without_scenario_id: scenario_id}
     expect_body(
       offset: 0,
@@ -199,7 +199,7 @@ RSpec.describe 'Suites', type: :request do
     post '/threAS3/suites', params: {name: 'my suites1'}
     post '/threAS3/suites', params: {name: 'my suites2'}
     suite_id = JSON.parse(response.body)["id"]
-    put "/threAS3/suites/#{suite_id}", params: { add_scenario_id: scenario_id }
+    patch "/threAS3/suites/#{suite_id}", params: { add_scenario_id: scenario_id }
     get "/threAS3/suites", params: { with_scenario_id: scenario_id}
     expect_body(
       offset: 0,

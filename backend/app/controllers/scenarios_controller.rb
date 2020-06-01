@@ -47,7 +47,7 @@ class ScenariosController < ApplicationController
 
   def update
     if params[:add_suite_id].present?
-      Suite.find(
+      Scenario.find(
         params[:id].to_i).suites<< Suite.find(params[:add_suite_id]
       )
       return render json: {
