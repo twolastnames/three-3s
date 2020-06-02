@@ -5,13 +5,18 @@ import { Suite } from './Suite';
 describe('Suite', () => {
   describe('its rendering', () => {
     it('renders without extras', () => {
-      const wrapper = shallow(<Suite key="1" name="my suite" />);
+      const wrapper = shallow(<Suite key="1" id={5} name="my suite" />);
       expect(wrapper).toMatchSnapshot();
     });
 
     it('renders with an extra', () => {
       const wrapper = shallow(
-        <Suite key="1" name="my suite" extra={[<p key="2">An extra</p>]} />
+        <Suite
+          key="1"
+          id={6}
+          name="my suite"
+          extra={[<p key="2">An extra</p>]}
+        />
       );
       expect(wrapper).toMatchSnapshot();
     });
@@ -20,6 +25,7 @@ describe('Suite', () => {
       const wrapper = shallow(
         <Suite
           key="1"
+          id={7}
           name="my suite"
           extra={[
             <p key="1">An extra 1</p>,

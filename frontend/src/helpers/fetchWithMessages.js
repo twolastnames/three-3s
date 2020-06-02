@@ -1,6 +1,7 @@
-export const fetchWithMessages = (options = {}) => (
-  level = 'error'
-) => async (description, url) => {
+export const fetchWithMessages = (options = {}, level = 'error') => async (
+  description,
+  url
+) => {
   try {
     const response = await fetch(url, options);
     if (!response.ok) {
@@ -8,7 +9,7 @@ export const fetchWithMessages = (options = {}) => (
       window.displayMessage('error', message);
       return {};
     }
-    if(level === 'info') {
+    if (level === 'info') {
       window.displayMessage('info', `success with ${description}`);
     }
     return await response.json();
@@ -20,3 +21,8 @@ export const fetchWithMessages = (options = {}) => (
   }
   return {};
 };
+
+export async function getFetchRecord(url, description) {
+  const message = await fetchWithMessages({ method: 'GET' })(description, url);
+  return await message.record;
+}

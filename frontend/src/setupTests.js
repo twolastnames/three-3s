@@ -34,4 +34,4 @@ global.withFetch = () => {
   return fetchMocks;
 };
 
-global.window.displayMessage = jest.fn()
+global.window.displayMessage = jest.fn();

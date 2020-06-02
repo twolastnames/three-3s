@@ -7,6 +7,8 @@ import { Header } from './Header';
 import { Architect } from '../routes/Architect';
 import { CreateSuite } from '../routes/CreateSuite';
 import { ModifiableSuites } from '../routes/ModifiableSuites';
+import { ModifiableSuite } from '../routes/ModifiableSuite';
+import { ModifiableScenario } from '../routes/ModifiableScenario';
 import { useCallback, useState } from 'react';
 import { Home } from '../routes/Home';
 import { Message } from './Message';
@@ -34,18 +36,10 @@ function App() {
       </div>
       <ul className="messages">{messages}</ul>
       <Switch>
-        <Route path="/architect/create_suite"
-          component={CreateSuite}
-        />
-        <Route path="/architect/suites/:id"
-          component={ModifiableSuite}
-        />
-        <Route path="/architect/suites"
-          component={ModifiableSuites}
-        />
-        <Route path="/architect/scenarios/:id"
-          compontent={ModifiableScenario}
-        />
+        <Route path="/architect/create_suite" component={CreateSuite} />
+        <Route path="/architect/suites/:id" component={ModifiableSuite} />
+        <Route path="/architect/suites" component={ModifiableSuites} />
+        <Route path="/architect/scenarios/:id" component={ModifiableScenario} />
         <Route path="/architect">
           <Architect />
         </Route>

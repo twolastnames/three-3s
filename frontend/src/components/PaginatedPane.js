@@ -70,8 +70,11 @@ const getOffset = (page, perPage) => page * perPage;
 
 const getLastPage = (count, perPage) => Math.floor(count / perPage);
 
+const getNextSeparator = (url) => (url.includes('?') ? '&' : '?');
+
 const getPaginatedPath = (onPage, perPage, url) =>
-  `${url}?offset=${getOffset(onPage, perPage)}&limit=${perPage}`;
+  `${url}${getNextSeparator(url)}` +
+  `offset=${getOffset(onPage, perPage)}&limit=${perPage}`;
 
 const loadElements = async (
   description,

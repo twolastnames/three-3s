@@ -16,6 +16,29 @@ ExampleElement.propTypes = {
 };
 
 describe('PaginatedPane', () => {
+  describe('a url with a query', () => {
+    beforeAll(async () => {
+      window.displayMessage.mockReset();
+      withFetch().mockException('a message');
+      mount(
+        <PaginatedPane
+          description="an exception"
+          url="/my/url?some=query"
+          getComponent={ExampleElement}
+        />
+      );
+      await act(() => nextTick());
+    });
+
+    it('fetched the correct url', () => {
+      expect(global.fetch).toBeCalledTimes(1);
+      expect(global.fetch).toBeCalledWith(
+        '/my/url?some=query&offset=0&limit=50',
+        {}
+      );
+    });
+  });
+
   describe('an exception', () => {
     let wrapper;
 
