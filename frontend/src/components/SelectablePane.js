@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 
 const setPane = (paneIndex, setPaneIndex) => () => setPaneIndex(paneIndex);
 
-export function SelectablePane({ paginatedPanes = [] }) {
+export function SelectablePane({ selectablePanes = [] }) {
   const [paneIndex, setPaneIndex] = useState(0);
 
-  const panes = paginatedPanes.map(({ component }) => component);
+  const panes = selectablePanes.map(({ component }) => component);
 
   const radioButtons = [];
 
-  const radioInputs = paginatedPanes.map(({ title }, index) => [
+  const radioInputs = selectablePanes.map(({ title }, index) => [
     <input
       key={`radio-input-${index}`}
       onChange={setPane(index, setPaneIndex)}
@@ -22,7 +22,7 @@ export function SelectablePane({ paginatedPanes = [] }) {
     />,
   ]);
 
-  const radioLabels = paginatedPanes.map(({ title }, index) => [
+  const radioLabels = selectablePanes.map(({ title }, index) => [
     <label key={`radio-label-${index}`} htmlFor={`multipaginator-${index}`}>
       {title}
     </label>,
@@ -42,5 +42,5 @@ export function SelectablePane({ paginatedPanes = [] }) {
 }
 
 SelectablePane.propTypes = {
-  paginatedPanes: PropTypes.array.isRequired,
+  selectablePanes: PropTypes.array.isRequired,
 };

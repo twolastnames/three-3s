@@ -63,7 +63,7 @@ export function ModifiableSuite({
       {suite === undefined ? 'Not Found' : ''}
       {suite === null ? 'Loading...' : ''}
       <SelectablePane
-        paginatedPanes={[
+        selectablePanes={[
           {
             title: 'Scenarios in Suite',
             component: (
