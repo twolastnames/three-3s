@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_26_224418) do
+ActiveRecord::Schema.define(version: 2020_06_03_024145) do
 
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(version: 2020_05_26_224418) do
   create_table "scenarios_steps", id: false, force: :cascade do |t|
     t.integer "scenario_id", null: false
     t.integer "step_id", null: false
+    t.integer "position"
     t.index ["scenario_id", "step_id"], name: "index_scenarios_steps_on_scenario_id_and_step_id"
     t.index ["step_id", "scenario_id"], name: "index_scenarios_steps_on_step_id_and_scenario_id"
   end
