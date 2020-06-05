@@ -37,7 +37,6 @@ RSpec.describe Scenario, type: :model do
     expect(scenario.ordered_steps.map(&:id)).to eq [kept_step.id]
   end
 
-  # TODO: fix flakiness of this test
   it 'can maintain order of steps in a scenario' do
     ScenariosStep.delete_all
     Scenario.delete_all
@@ -46,7 +45,6 @@ RSpec.describe Scenario, type: :model do
     step1 = Step.create! keyword: 'given', text: 'I have a step'
     step2 = Step.create! keyword: 'when', text: 'I push a button'
     step3 = Step.create! keyword: 'then', text: 'something happens'
-    expect(step1.id).to eq 1
     expect(Step.count).to eq 3
     scenario.ordered_steps = [
       step1.id,
