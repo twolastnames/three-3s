@@ -37,6 +37,7 @@ RSpec.describe Scenario, type: :model do
     expect(scenario.ordered_steps.map(&:id)).to eq [kept_step.id]
   end
 
+  # TODO: fix flakiness of this test
   it 'can maintain order of steps in a scenario' do
     ScenariosStep.delete_all
     Scenario.delete_all
