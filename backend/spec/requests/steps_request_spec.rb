@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Steps", type: :request do
   include RequestHelper
 
-  describe 'when it has 3 suites' do
+  describe 'when it has 3 steps' do
     before :all do
       clear_database
       post '/threAS3/steps', params: {keyword: 'given', text: 'have step'}
