@@ -212,5 +212,36 @@ RSpec.describe "Scenarios", type: :request do
       count: 1,
       records: [{ name: 'my scenario2' }],
     )
-  end  
+  end
+
+  it 'associate steps with a scenario' do
+    clear_database
+    post '/threAS3/scenarios', params: {name: 'my scenario1'}
+    scenario_id = JSON.parse(response.body)["id"]
+    post '/threAS3/steps', params: {keyword: 'given', text: 'We have a step'}
+    step1_id = JSON.parse(response.body)["id"]
+    post '/threAS3/steps', params: {keyword: 'when', text: 'We make a step'}
+    step2_id = JSON.parse(response.body)["id"]
+    post '/threAS3/steps', params: {keyword: 'then', text: 'Something happened'}
+    step3_id = JSON.parse(response.body)["id"]
+    patch "/threAS3/scenarios/#{scenario_id}", params: {
+      add_steps: [step1_id, step2_id, step3_id ]
+    }
+    expect(response.status).to eq 200
+    get "/threAS3/steps", params: {
+      with_scenario: scenario_id
+    }
+  end
+
+  it '400 when setting steps to something other than an array' do
+    clear_database
+    post '/threAS3/scenarios', params: {name: 'my scenario1'}
+    scenario_id = JSON.parse(response.body)["id"]
+    post '/threAS3/steps', params: {keyword: 'given', text: 'We have a step'}
+    step_id = JSON.parse(response.body)["id"]
+    patch "/threAS3/scenarios/#{scenario_id}", params: {
+      add_steps: step_id,
+    }
+    expect(response.status).to eq 400
+  end
 end
