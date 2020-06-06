@@ -9,12 +9,12 @@ class ApplicationController < ActionController::Base
   before_action :validate_offset, only: [:index]
   before_action :validate_limit, only: [:index]
   before_action :validate_id, only: [:destroy, :show, :update]
-  before_action :validate_allowed_relation, only: [:update, :index]
+  before_action :validate_allowed_association, only: [:update, :index]
   skip_before_action :verify_authenticity_token
 
   private
 
-  def validate_allowed_relation
+  def validate_allowed_association
     operations = %w(with without add remove)
     data_types = %w(step scenario suite)
     found = nil
