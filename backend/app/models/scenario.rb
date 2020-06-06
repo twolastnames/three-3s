@@ -7,6 +7,7 @@ class Scenario < ApplicationRecord
 public
   def ordered_steps= (new_steps)
     new_steps = new_steps.map do |step|
+      step = step.to_i if step.respond_to? :to_i
       if step.is_a? Integer then step else step.id end
     end
     ScenariosStep.transaction do
