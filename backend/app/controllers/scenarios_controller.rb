@@ -48,17 +48,17 @@ class ScenariosController < ApplicationController
   def update
     if params[:add_suite_id].present?
       Scenario.find(
-        params[:id].to_i).suites<< Suite.find(params[:add_suite_id]
+        params[:id]).suites<< Suite.find(params[:add_suite_id]
       )
       return render json: {
-        suite_id: params[:id].to_i, scenario_id: params[:add_suite_id]
+        suite_id: params[:id], scenario_id: params[:add_suite_id]
       }
     elsif params[:remove_suite_id].present?
-      Scenario.find(params[:id].to_i).suites.delete(Suite.find(
+      Scenario.find(params[:id]).suites.delete(Suite.find(
         params[:remove_suite_id]
       ))
       return render json: {
-        suite_id: params[:id].to_i, scenario_id: params[:remove_suite_id]
+        suite_id: params[:id], scenario_id: params[:remove_suite_id]
       }
     end
     render json: {
