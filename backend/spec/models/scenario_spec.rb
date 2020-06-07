@@ -63,4 +63,33 @@ RSpec.describe Scenario, type: :model do
       step3,
       ]
   end
+
+  it 'can accept text for steps' do
+    ScenariosStep.delete_all
+    Scenario.delete_all
+    Step.delete_all
+    scenario = Scenario.create! name: 'my scenario name'
+    Step.create! keyword: 'given', text: 'I have a step'
+    expect(Step.count).to eq 1
+    scenario.ordered_steps = [
+      'given I have a step',
+      'When I push a button',
+      'then something happens',
+      'when I push a button',
+      'Then something happens',
+      ]
+    expect(Step.count).to eq 3
+    id = scenario.id
+    target = Scenario.find(id)
+    step1 = Step.find_by(text: 'I have a step')
+    step2 = Step.find_by(text: 'I push a button')
+    step3 = Step.find_by(text: 'something happens')
+    expect(target.ordered_steps).to eq [
+      step1,
+      step2,
+      step3,
+      step2,
+      step3,
+      ]
+  end
 end

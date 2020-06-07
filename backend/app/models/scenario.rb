@@ -6,14 +6,9 @@ class Scenario < ApplicationRecord
 
 public
   def ordered_steps= (new_steps)
-    new_steps = new_steps.map do |step|
-      step = step.to_i if step.respond_to? :to_i
-      if step.is_a? Integer then step else step.id end
-    end
+    new_steps = new_steps.map &method(:id_for_step)
     ScenariosStep.transaction do
-      ScenariosStep.where("scenario_id = ?", id).delete_all
-      addeds = new_steps.each_with_index.map &method(:create_step_association)
-      addeds.map {|added| Step.find(added.step_id)}
+      persist_steps(new_steps)
     end
   end
 
@@ -26,12 +21,41 @@ public
   end
 
   private
-  
+
+  def persist_steps(steps)
+    ScenariosStep.where("scenario_id = ?", id).delete_all
+    addeds = steps.each_with_index.map &method(:create_step_association)
+    addeds.map {|added| Step.find(added.step_id)}
+  end
+
   def create_step_association(step_id, position)
     ScenariosStep.create!({
       step_id: step_id,
       scenario_id: id,
       position: position
     })
+  end
+
+  def id_for_step(step)
+    if step.kind_of?(String) && step.to_i == 0
+      ensure_exists(step).id
+    elsif step.respond_to? :to_i
+      step.to_i
+    elsif !step.is_a? Integer
+      step.id
+    end
+  end
+
+  def ensure_exists(step_string)
+    begin
+      Step.create! **parse_step(step_string)
+    rescue ActiveRecord::RecordNotUnique
+      Step.find_by **parse_step(step_string)
+    end
+  end
+
+  def parse_step(statement)
+    keyword, text = statement.split(' ', 2)
+    { text: text, keyword: keyword.downcase }
   end
 end
