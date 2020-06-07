@@ -3,12 +3,12 @@
 require 'rails_helper'
 
 module RequestHelper
-  def nilify_ids(array)
+  def nilify_ids(array, key = :id)
     seen = Set.new
     array.map do |element|
-      expect(seen).not_to include(element[:id])
-      seen << element[:id]
-      element.delete :id
+      expect(seen).not_to include(element[key])
+      seen << element[key]
+      element.delete key
     end
   end
 

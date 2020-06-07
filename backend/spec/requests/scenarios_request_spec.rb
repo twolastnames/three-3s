@@ -219,18 +219,32 @@ RSpec.describe "Scenarios", type: :request do
     post '/threAS3/scenarios', params: {name: 'my scenario1'}
     scenario_id = JSON.parse(response.body)["id"]
     post '/threAS3/steps', params: {keyword: 'given', text: 'We have a step'}
-    step1_id = JSON.parse(response.body)["id"]
+    step_id = JSON.parse(response.body)["id"]
+    post '/threAS3/steps', params: {keyword: 'given', text: 'unused step'}
     post '/threAS3/steps', params: {keyword: 'when', text: 'We make a step'}
-    step2_id = JSON.parse(response.body)["id"]
-    post '/threAS3/steps', params: {keyword: 'then', text: 'Something happened'}
-    step3_id = JSON.parse(response.body)["id"]
     patch "/threAS3/scenarios/#{scenario_id}", params: {
-      add_steps: [step1_id, step2_id, step3_id ]
+      add_steps: [
+        step_id,
+        'when We make a step',
+        'then Something happened',
+        ]
     }
     expect(response.status).to eq 200
     get "/threAS3/steps", params: {
       with_scenario: scenario_id
     }
+    expect(response.status).to eq 200
+    body= JSON.parse(response.body)
+    nilify_ids(body['records'], 'id')
+    expect(body).to eq({
+      'count'=>3,
+      'offset'=>0,
+      'records'=>[
+        {'keyword'=>'given', 'text'=>'We have a step'},
+        {'keyword'=>'when', 'text'=>'We make a step'},
+        {'keyword'=>'then', 'text'=>'Something happened'},
+      ]
+    })
   end
 
   it '400 when setting steps to something other than an array' do

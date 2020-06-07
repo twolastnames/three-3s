@@ -1,7 +1,12 @@
 class StepsController < ApplicationController
   def index
+    base = Step
+    if params[:with_scenario].present?
+      base = Scenario.find(params[:with_scenario]).ordered_steps
+    end
+
     steps = Concurrent::Future.execute do
-      Step.limit(
+      base.limit(
         limit
       ).offset(
         offset
@@ -9,7 +14,7 @@ class StepsController < ApplicationController
         { id: id, keyword: keyword, text: text }
       end
     end
-    count = Concurrent::Future.execute { Step.count }
+    count = Concurrent::Future.execute { base.count }
     render json: { offset: offset, count: count.value, records: steps.value }
   end
 
