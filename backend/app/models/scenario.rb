@@ -13,11 +13,9 @@ public
   end
 
   def ordered_steps
-    step_ids = steps.map(&:id)
-    scenarioSteps = ScenariosStep.where("scenario_id = ?", id)
-    sorted = scenarioSteps.sort_by(&:position).map do |scenarioStep|
-      Step.find(scenarioStep.step_id)
-    end
+    Step.joins(:scenarios_steps).order(:position).where(
+      'scenarios_steps.scenario_id = ?', id
+      )
   end
 
   private
