@@ -9,7 +9,7 @@ describe('ModifiableScenario', () => {
 
     beforeAll(async () => {
       window.displayMessage.mockReset();
-      const fetcher = withFetch()
+      const fetcher = withFetch();
       fetcher.mockNotOk(404);
       fetcher.mockNotOk(404);
       wrapper = mount(<ModifiableScenario match={{ params: { id: '6' } }} />);
@@ -27,7 +27,7 @@ describe('ModifiableScenario', () => {
       );
       expect(window.displayMessage).toBeCalledWith(
         'error',
-        "fetching suites for scenario with id 6 with HTTP code 404"
+        'fetching suites for scenario with id 6 with HTTP code 404'
       );
       expect(window.displayMessage).toBeCalledTimes(2);
     });
@@ -38,7 +38,7 @@ describe('ModifiableScenario', () => {
 
     beforeAll(async () => {
       window.displayMessage.mockReset();
-      const fetcher = withFetch()
+      const fetcher = withFetch();
       fetcher.mockException('my error');
       fetcher.mockException('my error');
       wrapper = mount(<ModifiableScenario match={{ params: { id: '6' } }} />);
@@ -52,11 +52,11 @@ describe('ModifiableScenario', () => {
     it('specfices an error', () => {
       expect(window.displayMessage).toBeCalledWith(
         'error',
-        "fetching suites for scenario with id 6 my error"
+        'fetching suites for scenario with id 6 my error'
       );
       expect(window.displayMessage).toBeCalledWith(
         'error',
-        "getting scenario with ID 6 my error"
+        'getting scenario with ID 6 my error'
       );
       expect(window.displayMessage).toBeCalledTimes(2);
     });
@@ -67,9 +67,9 @@ describe('ModifiableScenario', () => {
 
     beforeAll(async () => {
       window.displayMessage.mockReset();
-      const fetcher = withFetch()
-      fetcher.mockOk({record: {}});
-      fetcher.mockOk({records: []});
+      const fetcher = withFetch();
+      fetcher.mockOk({ record: {} });
+      fetcher.mockOk({ records: [] });
       wrapper = mount(<ModifiableScenario match={{ params: { id: '6' } }} />);
       await act(() => nextTick());
     });
@@ -82,5 +82,4 @@ describe('ModifiableScenario', () => {
       expect(window.displayMessage).toBeCalledTimes(0);
     });
   });
-
 });
