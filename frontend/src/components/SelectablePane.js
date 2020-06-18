@@ -9,9 +9,8 @@ export function SelectablePane({ selectablePanes = [] }) {
 
   const panes = selectablePanes.map(({ component }) => component);
 
-  const radioButtons = [];
-
-  const radioInputs = selectablePanes.map(({ title }, index) => [
+  const radioButtons = selectablePanes.map(({ title }, index) => [
+    <div>
     <input
       key={`radio-input-${index}`}
       onChange={setPane(index, setPaneIndex)}
@@ -19,23 +18,16 @@ export function SelectablePane({ selectablePanes = [] }) {
       checked={index === paneIndex}
       id={`multipaginator-${index}`}
       name="pane-selection"
-    />,
-  ]);
-
-  const radioLabels = selectablePanes.map(({ title }, index) => [
+    />
     <label key={`radio-label-${index}`} htmlFor={`multipaginator-${index}`}>
       {title}
-    </label>,
+    </label>
+    </div>
   ]);
-
-  for (let radioIndex = 0; radioIndex < radioLabels.length; radioIndex++) {
-    radioButtons.push(radioInputs[radioIndex]);
-    radioButtons.push(radioLabels[radioIndex]);
-  }
 
   return (
     <div>
-      {radioButtons}
+      <div className='pane-selector'>{radioButtons}</div>
       {panes[paneIndex]}
     </div>
   );
