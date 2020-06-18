@@ -87,7 +87,7 @@ Message.propTypes = {
 
 export function Message({ level, message }) {
   const [opacity, setOpacity] = useState(1.0);
-  const [display, setDisplay] = useState('unset');
+  const [display, setDisplay] = useState(null);
   const startFade = 10000;
 
   function closeMessage() {
