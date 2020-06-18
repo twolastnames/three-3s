@@ -13,6 +13,9 @@ export function Architect() {
         <li>
           <Link to="/architect/create_suite">Create Suite</Link>
         </li>
+        <li>
+          <Link to="/architect/create_scenario">Create Scenario</Link>
+        </li>
       </ul>
     </div>
   );

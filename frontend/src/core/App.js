@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Header } from './Header';
 import { Architect } from '../routes/Architect';
 import { CreateSuite } from '../routes/CreateSuite';
+import { CreateScenario } from '../routes/CreateScenario';
 import { ModifiableSuites } from '../routes/ModifiableSuites';
 import { ModifiableSuite } from '../routes/ModifiableSuite';
 import { ModifiableScenario } from '../routes/ModifiableScenario';
@@ -37,6 +38,7 @@ function App() {
       <ul className="messages">{messages}</ul>
       <Switch>
         <Route path="/architect/create_suite" component={CreateSuite} />
+        <Route path="/architect/create_scenario" component={CreateScenario} />
         <Route path="/architect/suites/:id" component={ModifiableSuite} />
         <Route path="/architect/suites" component={ModifiableSuites} />
         <Route path="/architect/scenarios/:id" component={ModifiableScenario} />
