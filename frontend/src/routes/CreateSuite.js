@@ -85,7 +85,7 @@ export function CreateSuite() {
   const [buttonDisabled, setButtonDisabled] = useState(true);
 
   return (
-    <div>
+    <div className='route'>
       <h2>Create Suite</h2>
       <Form
         buttonDisabled={buttonDisabled}

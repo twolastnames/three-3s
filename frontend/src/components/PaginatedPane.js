@@ -40,7 +40,7 @@ const decrementPage = (setPage, onPage) => () => setPage(onPage - 1);
 const incrementPage = (setPage, onPage) => () => setPage(onPage + 1);
 
 const PageBrowser = ({ onPage, lastPage, setPage }) => (
-  <ul>
+  <ul className='pagination-browser'>
     <li style={onPage === 0 ? { display: 'none' } : {}}>
       <button id="back-pagination" onClick={decrementPage(setPage, onPage)}>
         <BackImage />

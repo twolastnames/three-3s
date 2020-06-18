@@ -42,7 +42,6 @@ export function GerkinArea({ id }) {
 
   return (
     <div id="gerkin-area">
-      <label forHtml="gerkin-area">Gerkin Text</label>
       <textarea
         onChange={onChange(setText)}
         rows="20"

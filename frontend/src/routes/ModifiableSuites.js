@@ -33,7 +33,7 @@ getSuiteComponent.propTypes = {
 
 export function ModifiableSuites() {
   return (
-    <div>
+    <div className='route'>
       <h2>Suites</h2>
       <PaginatedPane
         getComponent={getSuiteComponent}

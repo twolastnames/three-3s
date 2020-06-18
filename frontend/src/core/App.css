@@ -1,9 +1,139 @@
 body {
-  background-color: #b0e8b5;
+  background-color: white;
   color: black;
+}
+
+nav {
+  height: 40px;
+  background-color: silver;
+  color: black;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 25px;
+}
+
+nav ul a:link {
+  color: black;
+  text-decoration: none;
+}
+
+nav ul a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+nav ul a:hover {
+  background-color: black;
+  color: silver;
+}
+
+nav ul a {
+  margin-left: 30px;
+  padding: 20px 10px 5px;
 }
 
 nav ul {
   list-style-type: none;
   display: inline;
+  position: relative;
+  top: -40px;
+}
+
+nav .nav-header {
+  text-align: right;
+  font-size: 2em;
+  margin-right: 10px;
+}
+
+.messages {
+  position: fixed;
+  right: 5px;
+  z-index: 1;
+}
+
+.message {
+  background-color: silver;
+  margin: 10px;
+  padding: 10px;
+  width: 150px;
+  border-color: black;
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 25px;
+}
+
+.message .close {
+  position: relative;
+  top: -30px;
+  left: 130px;
+}
+
+.message .text {
+  position: relative;
+  top: -30px;
+}
+
+input[type="text"] {
+  margin: 20px;
+}
+
+input[type="radio"] {
+  background-color: orange;
+}
+
+.pagination-browser li {
+  padding: 10px;
+  display: inline;
+}
+
+.pagination-browser {
+  text-align: center;
+}
+
+ul li {
+  list-style-type: none;
+}
+
+#gerkin-area textarea {
+  width: 600px;
+  margin: 20px;
+}
+
+#gerkin-area button {
+  float: right;
+  width: 605px;
+  margin: 0 57px;
+}
+
+ul.record {
+  height: 40px;
+  border-color: grey;
+  border-style: solid;
+  border-width: 1px 0 0;
+}
+
+h2 {
+  text-align: center;
+  background-color: silver;
+  border-color: black;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 25px;
+}
+
+ul.record li {
+  display: inline;
+  font-size: 1em;
+}
+
+ul.record li svg {
+  position: relative;
+  top: 7px;
+}
+
+
+.route  {
+  margin: auto;
+  width: 50%;
 }

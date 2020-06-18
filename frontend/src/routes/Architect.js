@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export function Architect() {
   return (
-    <div>
+    <div className='route'>
       <h2>Architect</h2>
       <ul>
         <li>

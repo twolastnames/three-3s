@@ -21,10 +21,7 @@ const loadScenario = async (id) =>
   await getFetchRecord(getUrl(id), getDescription(id));
 
 const getAddSuite = (scenarioId) => ({ id, name }, triggerUpdate) => (
-  <ul>
-    <li>
-      <a href={`/architect/suites/${id}`}>{name}</a>
-    </li>
+  <ul className='record'>
     <li>
       <AddIcon
         url={`/threAS3/suites/${id}?add_scenario_id=${scenarioId}`}
@@ -32,20 +29,23 @@ const getAddSuite = (scenarioId) => ({ id, name }, triggerUpdate) => (
         triggerUpdate={triggerUpdate}
       />
     </li>
+    <li>
+      <a href={`/architect/suites/${id}`}>{name}</a>
+    </li>
   </ul>
 );
 
 const getRemoveSuite = (scenarioId) => ({ id, name }, triggerUpdate) => (
-  <ul>
-    <li>
-      <a href={`/architect/suites/${id}`}>{name}</a>
-    </li>
+  <ul className='record'>
     <li>
       <RemoveIcon
         url={`/threAS3/suites/${id}?remove_scenario_id=${scenarioId}`}
         description={`remove '${name}' suite from scenario`}
         triggerUpdate={triggerUpdate}
       />
+    </li>
+    <li>
+      <a href={`/architect/suites/${id}`}>{name}</a>
     </li>
   </ul>
 );
@@ -62,7 +62,7 @@ export function ModifiableScenario({
   }, [id]);
 
   return (
-    <div>
+    <div className='route'>
       <h2>Scenario: {(scenario || { name: '' }).name}</h2>
       {scenario === undefined ? 'Not Found' : ''}
       {scenario === null ? 'Loading...' : ''}

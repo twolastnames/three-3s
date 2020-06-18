@@ -14,11 +14,11 @@ export function Suite({ id, name, extras }) {
   ));
   return (
     <div>
-      <ul>
+      <ul className='record'>
+        {extension}
         <li key="1">
           <a href={`/architect/suites/${id}`}>{name}</a>
         </li>
-        {extension}
       </ul>
     </div>
   );

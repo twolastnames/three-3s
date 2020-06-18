@@ -1,5 +1,5 @@
 import React from 'react';
 
 export function Home() {
-  return <h2>ThreAS3</h2>;
+  return <div className='route'><h2>ThreAS3</h2></div>;
 }
