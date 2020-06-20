@@ -7,6 +7,7 @@ module RequestHelper
     seen = Set.new
     array.map do |element|
       expect(seen).not_to include(element[key])
+      expect(element[key]).to_not eq nil
       seen << element[key]
       element.delete key
     end
