@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
             error: "can not have both '#{data_type}' and '#{found}' params",
           }, status: 400 unless found.nil?
           found = data_type
-        rescue StandardError => e
+        rescue StandardError
           return render json: {
             error: "expected integer for parm '#{param}'",
           }, status: 400
