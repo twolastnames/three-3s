@@ -3,6 +3,7 @@ class Scenario < ApplicationRecord
   audited
   has_and_belongs_to_many :suites
   has_and_belongs_to_many :steps
+  has_many :scenario_runs
 
 public
   def ordered_steps= (new_steps)

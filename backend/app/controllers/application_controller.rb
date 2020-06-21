@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   def validate_allowed_association
     operations = %w(with without add remove)
-    data_types = %w(step scenario suite)
+    data_types = %w(step scenario suite run)
     found = nil
     operations.each do |operation|
       data_types.each do |data_type|

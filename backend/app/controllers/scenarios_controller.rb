@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ScenariosController < ApplicationController
   def index
     base = Scenario

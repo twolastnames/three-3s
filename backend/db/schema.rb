@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_03_024145) do
+ActiveRecord::Schema.define(version: 2020_06_19_213057) do
 
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
@@ -32,6 +32,14 @@ ActiveRecord::Schema.define(version: 2020_06_03_024145) do
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["request_uuid"], name: "index_audits_on_request_uuid"
     t.index ["user_id", "user_type"], name: "user_index"
+  end
+
+  create_table "scenario_runs", force: :cascade do |t|
+    t.integer "suite_run_id"
+    t.integer "scenario_id"
+    t.string "status"
+    t.string "result"
+    t.index ["scenario_id"], name: "index_scenario_runs_on_scenario_id"
   end
 
   create_table "scenarios", force: :cascade do |t|
@@ -63,6 +71,10 @@ ActiveRecord::Schema.define(version: 2020_06_03_024145) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["text", "keyword"], name: "index_steps_on_text_and_keyword", unique: true
+  end
+
+  create_table "suite_runs", force: :cascade do |t|
+    t.integer "suite_id"
   end
 
   create_table "suites", force: :cascade do |t|

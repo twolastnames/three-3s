@@ -15,6 +15,7 @@ module RequestHelper
 
   def expect_body(expected = {})
     body = JSON.parse(response.body, symbolize_names: true)
+    yield body if block_given?
     nilify_ids(body[:records]) unless body[:records].nil?
     nilify_ids([body[:record]]) unless body[:record].nil?
     expect(response.content_type).to eq('application/json; charset=utf-8')

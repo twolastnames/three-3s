@@ -4,5 +4,7 @@ Rails.application.routes.draw do
     resources :suites
     resources :scenarios
     resources :steps
+    resources :suite_runs
+    resources :scenario_runs
   end
 end
